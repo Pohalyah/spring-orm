@@ -23,9 +23,12 @@ import jakarta.persistence.Table;
  * Classe représentant le compte bancaire d'un utilisateur
  * 
  * TODO faire de cette classe une entité
- * Plus d'informations sur les entités -> https://gayerie.dev/epsi-b3-orm/javaee_orm/jpa_entites.html
+ * Plus d'informations sur les entités ->
+ * https://gayerie.dev/epsi-b3-orm/javaee_orm/jpa_entites.html
  * Attention de bien choisir les types en fonction de ceux du script SQL.
  */
+
+@Entity
 public class Account {
     /**
      * Identifiant unique du compte
@@ -34,17 +37,66 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "creationtime")
+    private LocalDateTime creationtime;
+
+    @Column(name = "balance")
+    private BigDecimal balance;
     /**
-     * TODO ajout d'une association de type @ManyToOne : plusieurs comptes différents peuvent être associés à la même personne
+     * TODO ajout d'une association de type @ManyToOne : plusieurs comptes
+     * différents peuvent être associés à la même personne
      * 
-     * Tutoriel présentant l'utilisation d'une telle association : https://koor.fr/Java/TutorialJEE/jee_jpa_many_to_one.wp
+     * Tutoriel présentant l'utilisation d'une telle association :
+     * https://koor.fr/Java/TutorialJEE/jee_jpa_many_to_one.wp
      */
 
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client owner;
+
     /*
-     * TODO implémenter un constructeur vide --> obligatoire pour l'utilisation d'un ORM
+     * TODO implémenter un constructeur vide --> obligatoire pour l'utilisation d'un
+     * ORM
      */
+
+    public Account() {
+
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public LocalDateTime getCreationtime() {
+        return creationtime;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Client getOwner() {
+        return owner;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public void setCreationtime(LocalDateTime creationtime) {
+        this.creationtime = creationtime;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setOwner(Client owner) {
+        this.owner = owner;
+    }
 
     /*
      * TODO implémenter les getters et les setters
      */
+
 }
