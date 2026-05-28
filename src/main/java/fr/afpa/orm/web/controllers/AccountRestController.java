@@ -28,7 +28,17 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * TODO ajouter la/les annotations nécessaires pour faire de "AccountRestController" un contrôleur de REST API
  */
+
+@RestController
 public class AccountRestController {
+
+    private final AccountRepository accountRepository;
+
+    public AccountRestController(AccountRepository accountRepository) {
+    this.accountRepository = accountRepository;
+}
+
+    
     /** 
      * TODO implémenter un constructeur
      *  
@@ -42,6 +52,8 @@ public class AccountRestController {
      *
      * Attention, il manque peut être une annotation :)
      */
+
+    @GetMapping("/accounts")
     public List<Account> getAll() {
         // TODO récupération des compte provenant d'un repository
        
