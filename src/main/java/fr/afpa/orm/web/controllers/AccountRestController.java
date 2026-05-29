@@ -54,20 +54,24 @@ public class AccountRestController {
      */
 
     @GetMapping("/accounts")
-    public List<Account> getAll() {
+    public Iterable<Account> getAll() {
         // TODO récupération des compte provenant d'un repository
-       
+       Iterable <Account> foundAccounts = accountRepository.findAll();
         // TODO renvoyer les objets de la classe "Account"
-        return null;
+        return foundAccounts;
     }
 
     /**
      * TODO implémenter une méthode qui traite les requêtes GET avec un identifiant "variable de chemin" et qui retourne les informations du compte associé
      * Plus d'informations sur les variables de chemin -> https://www.baeldung.com/spring-pathvariable
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<????> getOne(@PathVariable long id) {
+    @GetMapping("/accounts/{id}")
+    public Optional<Account> getOne(@PathVariable long id) {
         // TODO compléter le code
+
+        Optional<Account> foundAccounts = accountRepository.findById(id);
+        return foundAccounts;
+
     }
 
     /**
@@ -76,10 +80,12 @@ public class AccountRestController {
      * Tutoriel intéressant -> https://stackabuse.com/get-http-post-body-in-spring/
      * Le serveur devrai retourner un code http de succès (201 Created)
      **/
-    @PostMapping
+    @PostMapping("/accounts")
     @ResponseStatus(HttpStatus.CREATED)
-    public ???? create(@RequestBody Account account) {
+    public Account create(@RequestBody Account account) {
         // TODO compléter le code
+        Account saveAccount = accountRepository.save(account);
+        return saveAccount;
     }
 
     /**
@@ -87,8 +93,11 @@ public class AccountRestController {
      * 
      * Attention de bien ajouter les annotations qui conviennent
      */
+    @PutMapping("/accounts/{id}")
     public void update(@PathVariable long id, @RequestBody Account account) {
         // TODO Compléter le code
+        account.setId(id);
+        accountRepository.save(account);
     }
 
     /**
@@ -98,7 +107,10 @@ public class AccountRestController {
      * 
      * Il est possible de modifier la réponse du serveur en utilisant la méthode "setStatus" de la classe HttpServletResponse pour configurer le message de réponse du serveur
      */
-    public void remove(@PathVariable long id, HttpServletResponse response) {
+    @DeleteMapping("/accounts/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remove(@PathVariable long id) {
         // TODO implémentation
+        accountRepository.deleteById(id);
     }
 }
